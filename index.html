@@ -53,13 +53,17 @@
             font-size: 18px;
             margin: 20px 0;
         }
+        #mainContent {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="loading" id="loadingIndicator">Carregando dados...</div>
+    <div class="error" id="errorMessage" style="display: none;"></div>
+    
+    <div class="container" id="mainContent">
         <h1>Taxas de Câmbio USD/BRL Mensal</h1>
-        <div id="loading" class="loading">Carregando dados...</div>
-        <div id="error" class="error" style="display: none;"></div>
         <table id="exchangeTable">
             <thead>
                 <tr>
@@ -76,8 +80,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tableBody = document.getElementById('tableBody');
-            const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const mainContent = document.getElementById('mainContent');
             
             // URL do JSON
             const jsonUrl = 'https://raw.githubusercontent.com/klingersf/MonthlyUSDExchangeData/refs/heads/main/MonthlyUSDBRL.json';
@@ -91,8 +96,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    loading.style.display = 'none';
-                    
                     // Preencher a tabela com os dados na ordem em que aparecem no JSON
                     for (let key in data) {
                         const row = document.createElement('tr');
@@ -107,11 +110,17 @@
                         
                         tableBody.appendChild(row);
                     }
+                    
+                    // Esconde o indicador de carregamento
+                    loadingIndicator.style.display = 'none';
+                    
+                    // Exibe o conteúdo principal apenas depois que os dados são carregados
+                    mainContent.style.display = 'block';
                 })
                 .catch(err => {
-                    loading.style.display = 'none';
-                    error.textContent = 'Erro ao carregar os dados: ' + err.message;
-                    error.style.display = 'block';
+                    loadingIndicator.style.display = 'none';
+                    errorMessage.textContent = 'Erro ao carregar os dados: ' + err.message;
+                    errorMessage.style.display = 'block';
                 });
         });
     </script>
