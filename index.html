@@ -97,7 +97,7 @@
                 })
                 .then(data => {
                     // Preencher a tabela com os dados na ordem em que aparecem no JSON
-                    for (let key in data) {
+                    for (let key in data.data) {
                         const row = document.createElement('tr');
                         
                         const dateCell = document.createElement('td');
