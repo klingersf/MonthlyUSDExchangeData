@@ -93,12 +93,11 @@
                     if (!response.ok) {
                         throw new Error('Não foi possível obter os dados. Verifique se o URL está correto.');
                     }
-                    const json = response.json()
-                    return json.data;
+                    return response.json()
                 })
                 .then(data => {
                     // Preencher a tabela com os dados na ordem em que aparecem no JSON
-                    for (let key in data) {
+                    for (let key in data.data) {
                         const row = document.createElement('tr');
                         
                         const dateCell = document.createElement('td');
@@ -106,7 +105,7 @@
                         row.appendChild(dateCell);
                         
                         const rateCell = document.createElement('td');
-                        rateCell.textContent = data[key];
+                        rateCell.textContent = data.data[key];
                         row.appendChild(rateCell);
                         
                         tableBody.appendChild(row);
