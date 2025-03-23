@@ -93,7 +93,8 @@
                     if (!response.ok) {
                         throw new Error('Não foi possível obter os dados. Verifique se o URL está correto.');
                     }
-                    return response.json().data;
+                    const json = response.json()
+                    return json.data;
                 })
                 .then(data => {
                     // Preencher a tabela com os dados na ordem em que aparecem no JSON
